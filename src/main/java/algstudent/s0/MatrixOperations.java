@@ -18,8 +18,6 @@ public class MatrixOperations {
 	}
 	
 	public MatrixOperations(int n, int min, int max) {
-		// Parameter checking?
-		
 		this.n = n;
 		matrix = new int[n][n];
 		Random r = new Random();
