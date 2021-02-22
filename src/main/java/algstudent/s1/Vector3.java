@@ -7,15 +7,15 @@ public class Vector3 {
 		long t1, t2;
 		int sum = 0;
 		
-		for(int n = 10; n <= Integer.MAX_VALUE; n*=3) {
+		for(int n = 10; n <= Integer.MAX_VALUE; n*=5) {
 		v = new int[n];
 		Vector1.fillIn(v);
 
 		t1 = System.currentTimeMillis();
 		
-		//sum = Vector1.maximum(v, v);
+		sum = Vector1.sum(v);
 		
-		Vector1.maximum(v, v);
+		//Vector1.maximum(v, v);
 		
 		t2 = System.currentTimeMillis();
 		

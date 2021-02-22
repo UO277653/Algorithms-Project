@@ -12,7 +12,7 @@ public class MatrixOperations {
 	private int n;
 	
 	public static void main(String[] args) {
-		MatrixOperations mo = new MatrixOperations("src/MatrixOperations.txt");
+		MatrixOperations mo = new MatrixOperations("src/main/java/MatrixOperations.txt");
 		mo.travelPath(3,0);
 		mo.write();
 	}

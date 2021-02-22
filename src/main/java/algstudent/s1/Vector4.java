@@ -10,12 +10,13 @@ public class Vector4 {
 		
 		for(int n = 10; n <= Integer.MAX_VALUE; n*=3) {
 			v = new int[n];
-			Vector1.fillIn(v);
+			//Vector1.fillIn(v);
 		
 			t1 = System.currentTimeMillis();
 			
 			for(int repetitions = 0; repetitions <= nTimes; repetitions++) {
-				sum = Vector1.sum(v);
+				//sum = Vector1.sum(v);
+				Vector1.fillIn(v);
 			}
 			
 			t2 = System.currentTimeMillis();
