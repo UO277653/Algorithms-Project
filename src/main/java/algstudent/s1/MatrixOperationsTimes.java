@@ -12,8 +12,8 @@ public class MatrixOperationsTimes {
 	private int n;
 	
 	public static void main(String[] args) {
-		MatrixOperationsTimes mo = new MatrixOperationsTimes("src/MatrixOperations.txt");
-		mo.measureDiagonal1Times();
+		MatrixOperationsTimes mo = new MatrixOperationsTimes("src/main/java/MatrixOperations.txt");
+		mo.measureDiagonal2Times();
 	}
 	
 	public MatrixOperationsTimes(int n, int min, int max) {
@@ -145,30 +145,34 @@ public class MatrixOperationsTimes {
 	private void measureDiagonal1Times() {
 		long t1, t2;
 		
-		t1 = System.currentTimeMillis();
+		for(int n = 10; n <= Integer.MAX_VALUE; n*=3) {
 		
-		// Measure
-		for(int repetitions = 0; repetitions <= 10000000; repetitions++) {
-			sumDiagonal1();
+			t1 = System.currentTimeMillis();
+			
+			for(int repetitions = 0; repetitions <= n; repetitions++) {
+				sumDiagonal1();
+			}
+			
+			t2 = System.currentTimeMillis();
+			
+			System.out.printf("SIZE-%d TIME-%d milliseconds\n", n, t2-t1);
 		}
-		
-		t2 = System.currentTimeMillis();
-		
-		System.out.printf("SIZE-%d TIME-%d tenths of seconds\n", n, t2-t1);
 	}
 	
 	private void measureDiagonal2Times() {
 		long t1, t2;
 		
-		t1 = System.currentTimeMillis();
+		for(int n = 10; n <= Integer.MAX_VALUE; n*=3) {
 		
-		// Measure
-		for(int repetitions = 0; repetitions <= 10000000; repetitions++) {
-			sumDiagonal2();
+			t1 = System.currentTimeMillis();
+			
+			for(int repetitions = 0; repetitions <= n; repetitions++) {
+				sumDiagonal2();
+			}
+			
+			t2 = System.currentTimeMillis();
+			
+			System.out.printf("SIZE-%d TIME-%d milliseconds\n", n, t2-t1);
 		}
-		
-		t2 = System.currentTimeMillis();
-		
-		System.out.printf("SIZE-%d TIME-%d tenths of seconds\n", n, t2-t1);
 	}
 }

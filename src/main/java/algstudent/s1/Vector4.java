@@ -15,8 +15,9 @@ public class Vector4 {
 			t1 = System.currentTimeMillis();
 			
 			for(int repetitions = 0; repetitions <= nTimes; repetitions++) {
-				//sum = Vector1.sum(v);
-				Vector1.fillIn(v);
+				sum = Vector1.sum(v);
+				//Vector1.fillIn(v);
+				Vector1.maximum(v, v);
 			}
 			
 			t2 = System.currentTimeMillis();

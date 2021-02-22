@@ -13,7 +13,7 @@ public class Vector3 {
 
 		t1 = System.currentTimeMillis();
 		
-		sum = Vector1.sum(v);
+		//sum = Vector1.sum(v);
 		
 		//Vector1.maximum(v, v);
 		
