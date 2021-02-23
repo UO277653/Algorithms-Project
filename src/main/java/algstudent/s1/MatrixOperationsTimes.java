@@ -13,7 +13,7 @@ public class MatrixOperationsTimes {
 	
 	public static void main(String[] args) {
 		MatrixOperationsTimes mo = new MatrixOperationsTimes("src/main/java/MatrixOperations.txt");
-		mo.measureDiagonal2Times();
+		mo.measureDiagonal1Times();
 	}
 	
 	public MatrixOperationsTimes(int n, int min, int max) {
