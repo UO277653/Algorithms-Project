@@ -15,7 +15,7 @@ public class QuicksortCentralElement extends Vector {
 		int pivot;
 		
 		if (left < right){ //if there is one element it is not necessary
-			int center = (left + right) / 2; // calculating the center
+			int center = (left + right) / 2;
 			pivot = elements[center]; //choose the pivot
 			interchange(center, right); //hide the pivot
 
