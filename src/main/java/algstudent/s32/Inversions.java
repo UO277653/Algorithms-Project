@@ -19,18 +19,18 @@ public class Inversions {
 			rankingArray[i] = ranking.get(i);
 		}
 		
-		return String.valueOf(mergeSortAndCount(rankingArray, 0, rankingArray.length - 1));
+		return String.valueOf(divideAndConquer(rankingArray, 0, rankingArray.length - 1));
 	}
 	
-	private long mergeSortAndCount(long[] arr, int left, int right) {
+	private long divideAndConquer(long[] array, int left, int right) {
 		
 		long count = 0;
 		if (left < right) {
 			
 			int center = (left + right) / 2;
-			count += mergeSortAndCount(arr, left, center);
-			count += mergeSortAndCount(arr, center + 1, right);
-			count += combine(arr, left, center, right);
+			count += divideAndConquer(array, left, center);
+			count += divideAndConquer(array, center + 1, right);
+			count += combine(array, left, center, right);
 		
 		}
 		

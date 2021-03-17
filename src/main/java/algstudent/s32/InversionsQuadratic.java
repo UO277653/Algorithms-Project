@@ -18,7 +18,7 @@ public class InversionsQuadratic {
 		}
 	}
 	
-    public long start()
+    public long start() // Brute force O(n^2)
     {
         long inv_count = 0;
         for (int i = 0; i < rankingArray.length - 1; i++)
