@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class ClosestPointsTest {
-	@Test
+
 	public void testCase01() {
 		ClosestPoints closest = new ClosestPoints();
 		closest.loadPoints("src/main/java/algstudent/s3/closest/case1.txt");

@@ -88,56 +88,58 @@ public class ClosestPoints {
 		Collections.sort(points, new PointComparator());
 		return divide(0, points.size());
 	}
-
+	
 	private Pair divide(int left, int right) {
-		if(right - left > 3) { // big enough
-			int center = (right + left) / 2;
+		if (right - left > 3) {
+			int center = (right+left)/2;
 			Pair pairLeft = divide(left, center);
-			Pair pairRight = divide(right, center);
+			Pair pairRight = divide(center, right);
 			Pair pairCenter = merge(pairLeft, pairRight, left, right);
+					    
 			return smallestDistance(pairLeft, pairRight, pairCenter);
 		}
-		return bruteForce(points.subList(left, right)); // O(1)
+		return bruteForce(points.subList(left, right));
 	}
 
 	private Pair merge(Pair pairLeft, Pair pairRight, int left, int right) {
 		int center = (right+left)/2;
 		double min = (pairLeft.getDistance() < pairRight.getDistance()) ? pairLeft.getDistance() : pairRight.getDistance();
-		Point centralPoint = points.get(center);
-		Pair pairCenter = pairRight;
-		List<Point> centralPoints = new ArrayList<>();
-		
-		for(Point p: points.subList(center, right))
-			if(p.getX() < centralPoint.getX() + min)
+		Point centralPoint = points.get(center); //this element is going to be the border between both parts	
+		Pair pairCenter = pairLeft; //until we have more info (may be right)
+		List<Point> centralPoints = new ArrayList<>(); //for the points in the strip
+
+		//we take points from the central position to the right for a maximum distance of MIN (if not, it is impossible to improve the current MIN value)
+		for (Point p : points.subList(center, right)) {
+			if (p.getX() < centralPoint.getX() + min)
 				centralPoints.add(p);
-			else
-				break;
+			else break;
+		}
 		
+		//we take points from the central position to the left for a maximum distance of MIN (if not, it is impossible to improve the current MIN value)
 		List<Point> reverseLeft = new ArrayList<>(points.subList(left, center));
 		Collections.reverse(reverseLeft);
-		for(Point p: reverseLeft)
-			if(p.getX() > centralPoint.getX() - min)
+		for (Point p : reverseLeft) {
+			if (p.getX() > centralPoint.getX() - min)
 				centralPoints.add(p);
-			else
-				break;
-		
-		if(centralPoints.size() >= 2)
-			pairCenter = bruteForce(centralPoints);
-		
-		return pairCenter;
-	}
-
-	private Pair smallestDistance(Pair pairLeft, Pair pairRight, Pair pairCenter) {
-		if(pairLeft.getDistance() < pairRight.getDistance()) {
-			if(pairLeft.getDistance() < pairCenter.getDistance()) {
-				return pairLeft;
-			} else {
-				return pairCenter;
-			}
+			else break;
 		}
-		else if(pairRight.getDistance() < pairCenter.getDistance())
-			return pairRight;
-		else
-			return pairCenter;
+		
+		//if we get at least 2 points in the central area, then we can try to check the best pair among them	
+	    if (centralPoints.size() >= 2)
+	    	pairCenter = bruteForce(centralPoints);
+	    
+	    return pairCenter;
 	}
+	
+	private Pair smallestDistance(Pair pairLeft, Pair pairRight, Pair pairCenter) {		
+		if (pairLeft.getDistance() < pairRight.getDistance()) {
+			if (pairLeft.getDistance() < pairCenter.getDistance())
+				return pairLeft;
+			else return pairCenter;
+		}
+		else if (pairRight.getDistance() < pairCenter.getDistance())
+			return pairRight;
+		else return pairCenter;
+	}
+	
 }
