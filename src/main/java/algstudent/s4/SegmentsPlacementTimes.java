@@ -62,7 +62,7 @@ public class SegmentsPlacementTimes {
 		
 		Random r = new Random();
 		for (int i = 0; i < vector.length; i++) {
-			vector[i] = r.nextInt(Integer.MAX_VALUE); // Lengths are integer numbers in the interval [1..99]. r.nextInt(99) + 1;
+			vector[i] = r.nextInt(99) + 1; // Lengths are integer numbers in the interval [1..99]. r.nextInt(99) + 1;
 		}
 	}
 
