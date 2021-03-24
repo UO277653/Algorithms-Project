@@ -14,12 +14,18 @@ public class SegmentsPlacementTimes {
 		 * the  time  it  takes to  execute  each  of  the  3 greedy algorithms.
 		 */
 		
+		//We can generate the size randomly 
+		//Random random = new Random();
+		//int size = random.nextInt(1000000);
+		
+		int size = 12800;
+		
 		int[] vector;
 		
 		long t;
 		
-		for (int n = 100; n <= 12800; n*= 2) {
-				
+		for (int n = 100; n <= size; n*= 2) { // NOTE: These are the values needed for the table of the exercise
+											  // the size can also be generated using a Random object
 				t = 0;
 				
 				vector = new int[n];
