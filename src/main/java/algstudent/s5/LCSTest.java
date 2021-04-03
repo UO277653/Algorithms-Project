@@ -4,8 +4,8 @@ public class LCSTest {
 	
 	public static void main(String arg []) {
 		
-		String str1 = arg[0]; // 1st sequence // GCCCTAGCG  GCGCAATG
-		String str2 = arg[1]; // 2nd sequence // GCCCTAGCG GCGCAAT
+		String str1 = arg[0]; // 1st sequence // GCCCTAGCG GCGCAATG
+		String str2 = arg[1]; // 2nd sequence // GCATGCAT GAATTCAG
 		
 		System.out.println("DYNAMIC PROGRAMMING:");
 		LCS lcs = new LCS(str1, str2);

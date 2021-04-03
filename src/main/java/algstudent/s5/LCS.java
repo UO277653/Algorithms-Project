@@ -109,7 +109,8 @@ public class LCS {
 				jPrev = table[j][i - 1].value;
 				prevValue = table[j - 1][i - 1].value;
 				
-				System.out.print(str2.substring(i-1, i) + " " + str1.charAt(j));
+				//System.out.print(str2.substring(i-1, i) + " " + str1.charAt(j)); Testing purposes
+				
 				if (String.valueOf(str2.charAt(i)).equals(String.valueOf(str1.charAt(j)))) { // if (str1.substring(i, i + 1).equals(str2.substring(j-1, j))) {
 					prevValue++;
 				}
@@ -128,7 +129,7 @@ public class LCS {
 					table[j][i].jPrev = i;
 				}
 				
-				printTable();
+				//printTable(); Testing purposes
 			}
 		}
 	}
@@ -152,19 +153,22 @@ public class LCS {
 	 */
 	public void findLongestSubseq(boolean v){
 		// TODO: After the table is filled, from table last element traces the MSC found
-		String res = ""; //String.valueOf(str2.charAt(table[size1 - 1][size2 - 1].iPrev));
+		String res = "";
 		int last = table[size1 - 1][size2 - 1].value;
-		for (int i = size2 - 1; i >= 1; i--) {
-			if(size2 % 2 !=0 && i == size2/2) {
-				res = String.valueOf(str1.charAt(table[i][i].iPrev)) + res;
+		for (int i = size2 - 1; i >= 0; i--) {
+			if(size2 % 2 ==0 && i == size2/2) {
+				res = String.valueOf(str2.charAt(i + 1)) + res;
 			} else {
 				if(table[i][i].value != last) { // A change has happened, we add the last one
-					res = String.valueOf(str1.charAt(table[i + 1][i + 1].iPrev)) + res;
+					res = String.valueOf(str2.charAt(i + 1)) + res;
 					last = table[i][i].value;
 				}
 			}
+			if (v) {
+				System.out.println("Currently at cell " + "[ " + i + ", " + i + " ]");
+			}
 		}
 		result = res;
-	} // Probar con el ejemplo GCCCTAGCG and GCGCAAT
+	}
 
 }
