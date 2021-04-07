@@ -30,15 +30,14 @@ public class LCSRec {
 			L2 = findLongestSubseq(s1, s2.substring(0, s2.length() - 1)); 
  			L3 = findLongestSubseq(s1.substring(0, s1.length() - 1), s2.substring(0, s2.length() - 1));
 
- 			if(s2.substring(s2.length() - 1, s2.length()).equals(s1.substring(s1.length() - 1, s1.length()))) {// if(s1.substring(s1.length() - 1, s1.length()).equals(s2.substring(s2.length() - 1, s2.length()))) {
-				//L3 = L3 + s1.substring(s1.length() - 1, s1.length());
-				L3 = L3 + s2.substring(s2.length() - 1, s2.length());
+ 			if(s1.substring(s1.length() - 1, s1.length()).equals(s2.substring(s2.length() - 1, s2.length()))) {
+				L3 = L3 + s1.substring(s1.length() - 1, s1.length());
 			}
-			if (L1.length() > L2.length() && L1.length() > L3.length()) {
+			if (L1.length() > L2.length() && L1.length() > L3.length()) { // Find the longest
 				return L1;
 			}
 			
-			if (L2.length() > L1.length() && L2.length() > L3.length()) {
+			if (L2.length() > L1.length() && L2.length() > L3.length()) { // Remove/put the = for the other version
 				return L2;
 			}
 			

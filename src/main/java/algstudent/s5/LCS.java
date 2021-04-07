@@ -115,7 +115,7 @@ public class LCS {
 					prevValue++;
 				}
 				
-				if (jPrev >= prevValue && jPrev >= iPrev) {
+				if (jPrev >= prevValue && jPrev >= iPrev) { // Find the longest
 					table[j][i].value = jPrev;
 					table[j][i].iPrev = j;
 					table[j][i].jPrev = i - 1;
