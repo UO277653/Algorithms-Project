@@ -196,11 +196,11 @@ public class BestListBandB extends BranchAndBound {
 			int totalScore = 0;
 			String res = "";
 			
-			for(Song s: blockA) { // era res
+			for(Song s: blockA) {
 				totalScore+= s.score;
 			}
 			
-			for(Song s: blockB) { // era res
+			for(Song s: blockB) {
 				totalScore+= s.score;
 			}
 			
