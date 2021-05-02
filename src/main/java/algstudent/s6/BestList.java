@@ -19,7 +19,7 @@ public class BestList {
 	List<Song> blockAres= new ArrayList<Song>();
 	List<Song> blockBres= new ArrayList<Song>();
 	
-	List<Song> bestSolutionList = new ArrayList<Song>(); // Useful for temporarily storing the solution
+	//List<Song> bestSolutionList = new ArrayList<Song>(); // Useful for temporarily storing the solution
 	
 	int stateCounter = 0;
 	
