@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BestList {
 
-	List<Song> songs = new ArrayList<Song>();
+	public List<Song> songs = new ArrayList<Song>();
 	// store songs in a list
 	
 	// 2 blocks max
@@ -197,7 +197,7 @@ public class BestList {
 		
 	}
 
-	static class Song{
+	public static class Song{
 		
 		public String id;
 		public int duration; // in seconds

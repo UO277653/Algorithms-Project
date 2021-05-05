@@ -1,13 +1,15 @@
 package algstudent.s7;
 
-import java.io.BufferedReader; 
+import java.io.BufferedReader;  
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.spec.DSAGenParameterSpec;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import algstudent.s6.BestList.Song;
 import algstudent.s7.util.BranchAndBound;
 import algstudent.s7.util.Node;
 
@@ -23,8 +25,6 @@ public class BestListBandB extends BranchAndBound {
 		BestListBandB b = new BestListBandB(n);
 		b.branchAndBound(b.getRootNode()); 		
 		b.printSolutionTrace();
-		
-		// boolean result = b.getBestNode() != null ? true : false; 
 	}
 	
 	public static List<Song> readSongsFromFile(String file) {
@@ -84,11 +84,12 @@ public class BestListBandB extends BranchAndBound {
 		int stateCounter = 0;
 		int level = 0;
 		int length = 0;
-		UUID parentID = null;
 		
 		 public SongNode(List<Song> songsList, int length) {
 			this.songs = songsList;
 			this.length = length;
+			
+			// Collections.sort(this.songs);
 		}
 		 
 		 public SongNode(List<Song> songsList, List<Song> blockA, List<Song> blockB, 
@@ -96,6 +97,7 @@ public class BestListBandB extends BranchAndBound {
 				this.songs = songsList;
 				this.blockA = blockA;
 				this.blockB = blockB;
+				this.depth = level;
 				this.level = level;
 				this.length = length;
 				this.parentID = parentID;
@@ -106,16 +108,11 @@ public class BestListBandB extends BranchAndBound {
 		public void calculateHeuristicValue() {
 			
 			int res = 0;
-			
 			if(prune()) {
-				
 				heuristicValue = Integer.MAX_VALUE;
-				
 			} else {
-					
 					res += sumScore(blockA) + sumScore(blockB);
 					heuristicValue=-res;
-					
 			}
 		}
 
@@ -124,24 +121,21 @@ public class BestListBandB extends BranchAndBound {
 			
 			ArrayList<Node> result=new ArrayList<Node>();
 			
-			for(Song s: songs) {
-				
+			result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+					level+1, length, this.getID()));
+			
+			if(!blockA.contains(songs.get(level))) {
+				blockA.add(songs.get(level));
 				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
 						level+1, length, this.getID()));
-				
-				if(!blockA.contains(s)) {
-					blockA.add(s);
-					result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
-							level+1, length, this.getID()));
-					blockA.remove(s);
-				}
-				
-				if(!blockB.contains(s)) {
-					blockB.add(s);
-					result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
-							level+1, length, this.getID()));
-					blockB.remove(s);
-				}
+				blockA.remove(songs.get(level));
+			}
+			
+			if(!blockB.contains(songs.get(level))) {
+				blockB.add(songs.get(level));
+				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+						level+1, length, this.getID()));
+				blockB.remove(songs.get(level));
 			}
 			
 			return result;
@@ -181,13 +175,16 @@ public class BestListBandB extends BranchAndBound {
 
 		@Override
 		public boolean isSolution() {
-			return (this.level == songs.size() - 1) ? true : false; // && not repeated
+			
+			
+			
+			return (this.level == songs.size() - 1) ? true : false;
 		}
 		
 		private boolean prune() {
 			
 			return (calculateDuration(blockA) > length*60) ||
-					(calculateDuration(blockB) > length*60) || repeated(blockA, blockB);
+					(calculateDuration(blockB) > length*60);// || repeated(blockA, blockB);
 		}
 		
 		@Override
@@ -204,45 +201,22 @@ public class BestListBandB extends BranchAndBound {
 				totalScore+= s.score;
 			}
 			
-			res += "Total score: " + totalScore;
+			res += "Total score: " + totalScore + "\n";
 			
-			// System.out.println("Total counter: " + stateCounter);
+			res += "Level: " + level + "\n";
 			
-			System.out.println();
+			res += "\nBest block A: \n";
 			
-			System.out.print("Best block A: \n");
-			for(Song s: blockA) { // era res
-				System.out.print(s.toString() + "\n");
+			for(Song s: blockA) {
+				res += s.toString() + "\n";
 			}
 			
-			System.out.println();
-			
-			System.out.print("Best block B: \n");
-			for(Song s: blockB) { // era res
-				System.out.print(s.toString() + "\n");
+			res += "\nBest block B: \n";
+			for(Song s: blockB) {
+				res += s.toString() + "\n";
 			}
 			
 			return res;
-		}
-	}
-	
-	static class Song{
-		
-		public String id;
-		public int duration; // in seconds
-		public String durInMin;
-		public int score;
-		
-		public Song(String id, int duration, String durInMin, int score) {
-			
-			this.id = id;
-			this.duration = duration;
-			this.score = score;
-			this.durInMin = durInMin;
-		}
-		
-		public String toString() {
-			return "id: " + id + " seconds: " + durInMin + " score: " + score;
 		}
 	}
 	

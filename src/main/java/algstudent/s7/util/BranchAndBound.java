@@ -11,6 +11,11 @@ public abstract class BranchAndBound {
 	protected Node bestNode; //To save the final node of the best solution
 	protected Node rootNode; //Initial node
 	protected int pruneLimit; //To prune nodes above this value
+	
+	protected int processedNodes = 0;
+	protected int generatedNodes = 0;
+	protected int trimmedNodes = 0;
+	
 	       
 	/**
 	 * Constructor for BrancAndBount objects
@@ -31,9 +36,14 @@ public abstract class BranchAndBound {
 		while (!ds.empty() && ds.estimateBest() < pruneLimit) {
 			Node node = ds.extractBestNode();	
 			
+			processedNodes++;
+			
 			ArrayList<Node> children = node.expand(); 
 			
+			generatedNodes += children.size();
+			
 			for (Node child : children)
+				
 				if (child.isSolution()) {
 					int cost = child.getHeuristicValue();
 					if (cost < pruneLimit) {
@@ -44,6 +54,8 @@ public abstract class BranchAndBound {
 				else
 					if (child.getHeuristicValue() < pruneLimit) {
 						ds.insert(child);
+					} else {
+						trimmedNodes++;
 					}
 		} //while
 	}
@@ -84,6 +96,7 @@ public abstract class BranchAndBound {
     				System.out.println("Step " + i + ":");
     			System.out.println(result.get(result.size()-i-1).toString());
     	    }
+            System.out.println("Processed nodes: " + processedNodes + " Generated nodes: " + generatedNodes + " Trimmed nodes: " + trimmedNodes);
             System.out.println("\nSolution with " + bestNode.getDepth() + " step(s).");	
     	}
     }
