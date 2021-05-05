@@ -67,7 +67,7 @@ public class BestListBandB extends BranchAndBound {
 		return songs;
 	}
 	
-	public BestListBandB(SongNode initNode) { // Nice
+	public BestListBandB(SongNode initNode) {
 		rootNode=initNode;
 	}
 	
@@ -82,14 +82,11 @@ public class BestListBandB extends BranchAndBound {
 		List<Song> blockB= new ArrayList<Song>();
 		
 		int stateCounter = 0;
-		int level = 0;
 		int length = 0;
 		
 		 public SongNode(List<Song> songsList, int length) {
 			this.songs = songsList;
 			this.length = length;
-			
-			// Collections.sort(this.songs);
 		}
 		 
 		 public SongNode(List<Song> songsList, List<Song> blockA, List<Song> blockB, 
@@ -98,7 +95,6 @@ public class BestListBandB extends BranchAndBound {
 				this.blockA = blockA;
 				this.blockB = blockB;
 				this.depth = level;
-				this.level = level;
 				this.length = length;
 				this.parentID = parentID;
 				calculateHeuristicValue();
@@ -121,21 +117,46 @@ public class BestListBandB extends BranchAndBound {
 			
 			ArrayList<Node> result=new ArrayList<Node>();
 			
-			result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
-					level+1, length, this.getID()));
-			
-			if(!blockA.contains(songs.get(level))) {
-				blockA.add(songs.get(level));
+			// Version for finding first solution
+//			result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+//					depth+1, length, this.getID()));
+//			
+//			if(!blockA.contains(songs.get(depth))) {
+//				blockA.add(songs.get(depth));
+//				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+//						depth+1, length, this.getID()));
+//				blockA.remove(songs.get(depth));
+//			}
+//			
+//			if(!blockB.contains(songs.get(depth))) {
+//				blockB.add(songs.get(depth));
+//				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+//						depth+1, length, this.getID()));
+//				blockB.remove(songs.get(depth));
+//			}
+				
+				
+			// Version for finding best solution (slower)
+			for(Song s: songs) {
+				
+
 				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
-						level+1, length, this.getID()));
-				blockA.remove(songs.get(level));
-			}
+						depth+1, length, this.getID()));
+				
+				if(!blockA.contains(s)) {
+					blockA.add(s);
+					result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+							depth+1, length, this.getID()));
+					blockA.remove(s);
+				}
+				
+				if(!blockB.contains(s)) {
+					blockB.add(s);
+					result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
+							depth+1, length, this.getID()));
+					blockB.remove(s);
+				}
 			
-			if(!blockB.contains(songs.get(level))) {
-				blockB.add(songs.get(level));
-				result.add(new SongNode(this.songs, new ArrayList<>(blockA), new ArrayList<>(blockB), 
-						level+1, length, this.getID()));
-				blockB.remove(songs.get(level));
 			}
 			
 			return result;
@@ -175,16 +196,13 @@ public class BestListBandB extends BranchAndBound {
 
 		@Override
 		public boolean isSolution() {
-			
-			
-			
-			return (this.level == songs.size() - 1) ? true : false;
+			return (this.depth == songs.size()) ? true : false;
 		}
 		
 		private boolean prune() {
 			
 			return (calculateDuration(blockA) > length*60) ||
-					(calculateDuration(blockB) > length*60);// || repeated(blockA, blockB);
+					(calculateDuration(blockB) > length*60) || repeated(blockA, blockB);
 		}
 		
 		@Override
@@ -203,7 +221,7 @@ public class BestListBandB extends BranchAndBound {
 			
 			res += "Total score: " + totalScore + "\n";
 			
-			res += "Level: " + level + "\n";
+			res += "Level: " + depth + "\n";
 			
 			res += "\nBest block A: \n";
 			

@@ -1,16 +1,14 @@
 package algstudent.s7;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*; 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.SizeSequence;
 
 import org.junit.Test;
 
-import algstudent.s6.BestList;
 import algstudent.s6.BestList.Song;
 import algstudent.s7.BestListBandB.SongNode;
 
@@ -20,16 +18,22 @@ public class BestListBandBTests {
 	public void testDifferentN() {
 		
 		ArrayList<Integer> sizes = new ArrayList<Integer>();
-		sizes.add(25);
-		sizes.add(50);
-		sizes.add(100);
-		sizes.add(200);
-		sizes.add(400);
+		
+//		sizes.add(25);
+//		sizes.add(50);
+//		sizes.add(100);
+//		sizes.add(200);
+//		sizes.add(400);
+		
+		sizes.add(5);
+		sizes.add(10);
+		sizes.add(15);
 		
 		for(Integer n: sizes) {
 			List<Song> songs = generateSongsList(n);
 			int totalDuration = calculateDuration(songs);
 			
+			// Uncomment for backtracking testing (warning: it never ends for big values of n)
 //			BestList bestList = new BestList();
 //			bestList.songs = songs;
 //			bestList.setLength((int) (totalDuration * 0.4));
@@ -43,6 +47,7 @@ public class BestListBandBTests {
 			b.branchAndBound(b.getRootNode());
 			long endSBandB = System.currentTimeMillis();
 			
+			// Uncomment for backtracking testing (warning: it never ends for big values of n)
 			//System.out.println("Backtracking - Size: " + n + " Total millis: " + (endSback - startSback));
 			System.out.println("Branch and bound - Size: " + n + " Total millis: " + (endSBandB - startSBandB));
 		}
